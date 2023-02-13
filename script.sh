@@ -7,21 +7,21 @@ docker network create internal-network
 sleep 2
 echo "Deploying MariaDB container"
 mkdir -p $mysql_dir
-docker run -d --net internal-network --name mariadb -v $mysql_dir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=kjhdkjsahd0981@3History mariadb:10.2
+docker run -d --net internal-network --name mariadb -v $mysql_dir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$mysql_root_pass mariadb:10.2
 sleep 10
 
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e "create database $DB_NAME;"
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e "CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';"
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e "GRANT ALL PRIVILEGES ON portal.* TO '$DB_USER'@'%';"
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e  "FLUSH PRIVILEGES;"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "create database $DB_NAME;"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "GRANT ALL PRIVILEGES ON portal.* TO '$DB_USER'@'%';"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e  "FLUSH PRIVILEGES;"
 
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e "create database radius;"
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e "CREATE USER 'radius'@'%' IDENTIFIED BY '$radius_db_pass';"
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e "GRANT ALL PRIVILEGES ON radius.* TO 'radius'@'%';"
-docker exec -it mariadb mysql -u root -pkjhdkjsahd0981@3History -e  "FLUSH PRIVILEGES;"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "create database radius;"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "CREATE USER 'radius'@'%' IDENTIFIED BY '$radius_db_pass';"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "GRANT ALL PRIVILEGES ON radius.* TO 'radius'@'%';"
+docker exec -it mariadb mysql -u root -p$mysql_root_pass -e  "FLUSH PRIVILEGES;"
 
 #schema import for radius
-docker exec -i mariadb sh -c 'exec mysql -u root -pkjhdkjsahd0981@3History radius' < $(pwd)/Cova_Freeradius/scehma.sql;
+docker exec -i mariadb sh -c 'exec mysql -u root -p$mysql_root_pass radius' < $(pwd)/Cova_Freeradius/scehma.sql;
 
 #Free Radius Deployment
 
