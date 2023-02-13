@@ -7,7 +7,7 @@ docker network create internal-network
 sleep 2
 echo "Deploying MariaDB container"
 mkdir -p $mysql_dir
-docker run -d --net internal-network --name mariadb -v $mysql_dir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$mysql_root_pass mariadb:10.2
+docker run -d --net internal-network --name mariadb -v $mysql_dir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD="$mysql_root_pass" mariadb:10.2
 sleep 10
 
 docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "create database $DB_NAME;"
@@ -21,7 +21,7 @@ docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "GRANT ALL PRIVILEGE
 docker exec -it mariadb mysql -u root -p$mysql_root_pass -e  "FLUSH PRIVILEGES;"
 
 #schema import for radius
-docker exec -i mariadb sh -c 'exec mysql -u root -p'$mysql_root_pass' radius' < $(pwd)/Cova_Freeradius/scehma.sql;
+docker exec -i mariadb sh -c 'exec mysql -u root -p$mysql_root_pass radius' < $(pwd)/Cova_Freeradius/scehma.sql;
 
 #Free Radius Deployment
 
