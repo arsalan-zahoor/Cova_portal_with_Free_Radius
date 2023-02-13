@@ -2,6 +2,7 @@
 domain=docker3.nasirhafeez.com
 
 #Mysql Persistent Dir
+mysql_root_pass=123456
 mysql_dir=/root/vol
 
 #Radius DB
