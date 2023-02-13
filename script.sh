@@ -21,7 +21,7 @@ docker exec -it mariadb mysql -u root -p$mysql_root_pass -e "GRANT ALL PRIVILEGE
 docker exec -it mariadb mysql -u root -p$mysql_root_pass -e  "FLUSH PRIVILEGES;"
 
 #schema import for radius
-docker exec -i mariadb sh -c 'exec mysql -u root -p$mysql_root_pass radius' < $(pwd)/Cova_Freeradius/scehma.sql;
+docker exec -i mariadb sh -c 'exec mysql -u root -p'$mysql_root_pass' radius' < $(pwd)/Cova_Freeradius/scehma.sql;
 
 #Free Radius Deployment
 
